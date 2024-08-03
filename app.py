@@ -12,7 +12,7 @@ def format_bold(text):
     return re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', text)
 
 def generate_quiz_question(subject, difficulty):
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key={config.GEMINI_API_KEY}"
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key={GEMINI_API_KEY}"
     headers = {"Content-Type": "application/json"}
     data = {
         "contents": [{"parts": [{"text": f"Generate a quiz question for {subject} at {difficulty} difficulty"}]}]
@@ -34,7 +34,7 @@ def generate_quiz_question(subject, difficulty):
         return "Error fetching question. Please try again later."
 
 def generate_doubt_answer(doubt):
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key={config.GEMINI_API_KEY}"
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key={GEMINI_API_KEY}"
     headers = {"Content-Type": "application/json"}
     data = {
         "contents": [{"parts": [{"text": f"Answer the following question in detail: {doubt}"}]}]
