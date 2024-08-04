@@ -12,11 +12,12 @@ header {
     color: #fff;
     padding: 1em 0;
     text-align: center;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s, color 0.3s;
 }
 
 header h1 {
     margin: 0;
+    color: inherit; /* Ensure color inheritance */
 }
 
 header .theme-switcher {
@@ -129,4 +130,41 @@ footer {
 .dark-theme nav ul li a:hover {
     background-color: #0056b3;
     color: #fff;
+}
+
+.dark-theme .hero {
+    background: #0056b3;
+}
+
+/* Additional Styles for Light Theme */
+.light-theme {
+    background-color: #f0f0f0;
+    color: #333;
+}
+
+.light-theme header {
+    background-color: #fff;
+    color: #333;
+}
+
+.light-theme .container {
+    background-color: #fff;
+    color: #333;
+}
+
+.light-theme nav ul {
+    background-color: #ddd;
+}
+
+.light-theme nav ul li a {
+    color: #333;
+}
+
+.light-theme nav ul li a:hover {
+    background-color: #007BFF;
+    color: #fff;
+}
+
+.light-theme .hero {
+    background: #007BFF;
 }
