@@ -1,10 +1,10 @@
-/* Default Light Theme */
+/* Basic Styles */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
     background-color: #f0f0f0;
-    color: #333;
+    transition: background-color 0.3s, color 0.3s;
 }
 
 header {
@@ -12,30 +12,51 @@ header {
     color: #fff;
     padding: 1em 0;
     text-align: center;
+    transition: background-color 0.3s;
 }
 
 header h1 {
     margin: 0;
 }
 
+header .theme-switcher {
+    background: #007BFF;
+    color: #fff;
+    border: none;
+    padding: 0.5em 1em;
+    cursor: pointer;
+    margin-top: 10px;
+    border-radius: 4px;
+}
+
+header .theme-switcher:hover {
+    background: #0056b3;
+}
+
 nav ul {
     list-style: none;
     padding: 0;
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    background-color: #444;
+    border-radius: 5px;
 }
 
 nav ul li {
-    display: inline;
-    margin: 0 10px;
+    margin: 0;
 }
 
 nav ul li a {
     color: #fff;
     text-decoration: none;
+    display: block;
+    padding: 1em 2em;
+    transition: background-color 0.3s, color 0.3s;
 }
 
 nav ul li a:hover {
-    text-decoration: underline;
+    background-color: #007BFF;
+    color: #fff;
 }
 
 .container {
@@ -44,6 +65,8 @@ nav ul li a:hover {
     background-color: #fff;
     padding: 2em;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    transition: background-color 0.3s, color 0.3s;
 }
 
 .hero {
@@ -51,6 +74,7 @@ nav ul li a:hover {
     color: #fff;
     padding: 2em 0;
     text-align: center;
+    border-radius: 8px;
 }
 
 .hero h2 {
@@ -61,54 +85,13 @@ nav ul li a:hover {
     margin: 0;
 }
 
-.portfolio {
+.info {
     text-align: center;
-}
-
-.portfolio img {
-    max-width: 150px;
-    border-radius: 50%;
-}
-
-.portfolio p {
-    margin: 0.5em 0;
-}
-
-form {
-    display: flex;
-    flex-direction: column;
-}
-
-form label {
-    margin-top: 1em;
-}
-
-form input, form textarea {
-    padding: 0.5em;
-    margin-top: 0.5em;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-form button {
-    padding: 0.7em;
-    margin-top: 1em;
-    background-color: #007BFF;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-form button:hover {
-    background-color: #0056b3;
-}
-
-.question, .answer {
     margin-top: 2em;
-    padding: 1em;
-    background-color: #f9f9f9;
-    border-left: 4px solid #007BFF;
+}
+
+.info p {
+    margin: 0.5em 0;
 }
 
 footer {
@@ -121,47 +104,29 @@ footer {
     width: 100%;
 }
 
-/* Dark Theme */
-body.dark-theme {
+.dark-theme {
     background-color: #333;
-    color: #f0f0f0;
-}
-
-header.dark-theme {
-    background-color: #444;
-}
-
-.container.dark-theme {
-    background-color: #555;
-    color: #f0f0f0;
-}
-
-.hero.dark-theme {
-    background: #1a1a1a;
-}
-
-.question.dark-theme, .answer.dark-theme {
-    background-color: #444;
-    border-left: 4px solid #007BFF;
-}
-
-footer.dark-theme {
-    background-color: #444;
-}
-
-/* Theme Switch Button */
-.theme-switcher {
-    position: fixed;
-    top: 10px;
-    right: 10px;
-    background-color: #007BFF;
     color: #fff;
-    border: none;
-    border-radius: 4px;
-    padding: 10px 20px;
-    cursor: pointer;
 }
 
-.theme-switcher:hover {
+.dark-theme header {
+    background-color: #222;
+}
+
+.dark-theme .container {
+    background-color: #444;
+    color: #fff;
+}
+
+.dark-theme nav ul {
+    background-color: #222;
+}
+
+.dark-theme nav ul li a {
+    color: #fff;
+}
+
+.dark-theme nav ul li a:hover {
     background-color: #0056b3;
+    color: #fff;
 }
