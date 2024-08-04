@@ -18,21 +18,19 @@
             </ul>
         </nav>
     </header>
-    <section class="doubt">
-        <div class="container">
-            <h2>Submit Your Doubt</h2>
-            <form method="POST">
-                <label for="doubt">Doubt:</label>
-                <textarea id="doubt" name="doubt" required></textarea>
-                <button type="submit">Get Answer</button>
-            </form>
-            {% if answer %}
-                <div class="answer">
-                    <h3>Answer:</h3>
-                    <p>{{ answer|safe }}</p>
-                </div>
-            {% endif %}
-        </div>
+    <section class="container">
+        <h2>Submit Your Doubt</h2>
+        <form method="POST">
+            <label for="doubt">Doubt:</label>
+            <textarea id="doubt" name="doubt" required></textarea>
+            <button type="submit">Get Answer</button>
+        </form>
+        {% if answer %}
+            <div class="answer">
+                <h3>Answer:</h3>
+                <p>{{ answer|safe }}</p>
+            </div>
+        {% endif %}
     </section>
     <footer>
         <p>&copy; 2024 Nambu HariSaran. All rights reserved.</p>
