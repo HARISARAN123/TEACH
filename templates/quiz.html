@@ -4,34 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     <header>
-        <h1>T.E.A.C.H</h1>
+        <h1>T.E.A.C.H Quiz</h1>
         <nav>
             <ul>
                 <li><a href="{{ url_for('home') }}">Home</a></li>
                 <li><a href="{{ url_for('quiz') }}">Quiz</a></li>
-                <li><a href="{{ url_for('doubt') }}">Doubt</a></li>
+                <li><a href="{{ url_for('doubt') }}">Doubt Solver</a></li>
             </ul>
         </nav>
     </header>
-    <main>
-        <h2>Quiz</h2>
-        <form method="post">
-            <label for="subject">Subject:</label>
-            <input type="text" id="subject" name="subject" required><br>
-            <label for="difficulty">Enter your Subject and Syllabus:</label>
-            <input type="text" id="difficulty" name="difficulty" required><br>
-            <button type="submit">Generate Question</button>
-        </form>
-        {% if question %}
-            <div class="question">
-                <h3>Generated Question:</h3>
-                <p>{{ question|safe }}</p>
-            </div>
-        {% endif %}
-    </main>
+    <section class="quiz">
+        <div class="container">
+            <h2>Generate a Quiz Question</h2>
+            <form method="POST">
+                <label for="subject">Subject:</label>
+                <input type="text" id="subject" name="subject" required>
+                <label for="difficulty">Your grade & Syllabus :</label>
+                <input type="text" id="difficulty" name="difficulty" required>
+                <button type="submit">Generate Question</button>
+            </form>
+            {% if question %}
+                <div class="question">
+                    <h3>Question:</h3>
+                    <p>{{ question|safe }}</p>
+                </div>
+            {% endif %}
+        </div>
+    </section>
+    <footer>
+        <p>&copy; 2024 Nambu HariSaran. All rights reserved.</p>
+    </footer>
 </body>
 </html>
