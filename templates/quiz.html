@@ -18,23 +18,21 @@
             </ul>
         </nav>
     </header>
-    <section class="quiz">
-        <div class="container">
-            <h2>Generate a Quiz Question</h2>
-            <form method="POST">
-                <label for="subject">Subject:</label>
-                <input type="text" id="subject" name="subject" required>
-                <label for="difficulty">Difficulty:</label>
-                <input type="text" id="difficulty" name="difficulty" required>
-                <button type="submit">Generate Question</button>
-            </form>
-            {% if question %}
-                <div class="question">
-                    <h3>Question:</h3>
-                    <p>{{ question|safe }}</p>
-                </div>
-            {% endif %}
-        </div>
+    <section class="container">
+        <h2>Generate a Quiz Question</h2>
+        <form method="POST">
+            <label for="subject">Subject:</label>
+            <input type="text" id="subject" name="subject" required>
+            <label for="difficulty">Difficulty:</label>
+            <input type="text" id="difficulty" name="difficulty" required>
+            <button type="submit">Generate Question</button>
+        </form>
+        {% if question %}
+            <div class="question">
+                <h3>Question:</h3>
+                <p>{{ question|safe }}</p>
+            </div>
+        {% endif %}
     </section>
     <footer>
         <p>&copy; 2024 Nambu HariSaran. All rights reserved.</p>
