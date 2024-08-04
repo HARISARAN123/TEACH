@@ -157,6 +157,21 @@ footer {
     background-color: #222;
 }
 
+.dark-theme .question, .dark-theme .answer {
+    background: #333;
+    border-left: 4px solid #007BFF;
+}
+
+.dark-theme input, .dark-theme textarea {
+    background: #555;
+    color: #fff;
+    border: 1px solid #777;
+}
+
+.dark-theme input:focus, .dark-theme textarea:focus {
+    border-color: #007BFF;
+}
+
 /* Light Theme Styles */
 .light-theme {
     background-color: #f0f0f0;
@@ -201,6 +216,7 @@ footer {
     padding: 2em;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 2em;
 }
 
 .quiz h2, .doubt h2 {
@@ -214,6 +230,11 @@ footer {
     border-radius: 4px;
     border-left: 4px solid #007BFF;
     margin-top: 1em;
+    transition: background-color 0.3s;
+}
+
+.quiz .question:hover, .doubt .answer:hover {
+    background-color: #e9ecef;
 }
 
 .quiz form, .doubt form {
@@ -233,6 +254,12 @@ footer {
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 1em;
+    transition: border-color 0.3s, background-color 0.3s;
+}
+
+.quiz form input:focus, .doubt form input:focus, .quiz form textarea:focus, .doubt form textarea:focus {
+    border-color: #007BFF;
+    background-color: #f8f9fa;
 }
 
 .quiz form button, .doubt form button {
@@ -250,4 +277,3 @@ footer {
 .quiz form button:hover, .doubt form button:hover {
     background-color: #0056b3;
 }
-
