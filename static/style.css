@@ -1,8 +1,10 @@
+/* Default Light Theme */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
     background-color: #f0f0f0;
+    color: #333;
 }
 
 header {
@@ -117,4 +119,49 @@ footer {
     position: fixed;
     bottom: 0;
     width: 100%;
+}
+
+/* Dark Theme */
+body.dark-theme {
+    background-color: #333;
+    color: #f0f0f0;
+}
+
+header.dark-theme {
+    background-color: #444;
+}
+
+.container.dark-theme {
+    background-color: #555;
+    color: #f0f0f0;
+}
+
+.hero.dark-theme {
+    background: #1a1a1a;
+}
+
+.question.dark-theme, .answer.dark-theme {
+    background-color: #444;
+    border-left: 4px solid #007BFF;
+}
+
+footer.dark-theme {
+    background-color: #444;
+}
+
+/* Theme Switch Button */
+.theme-switcher {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.theme-switcher:hover {
+    background-color: #0056b3;
 }
