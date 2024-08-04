@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>T.E.A.C.H Portfolio</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     <header>
@@ -13,13 +13,30 @@
             <ul>
                 <li><a href="{{ url_for('home') }}">Home</a></li>
                 <li><a href="{{ url_for('quiz') }}">Quiz</a></li>
-                <li><a href="{{ url_for('doubt') }}">Doubt</a></li>
+                <li><a href="{{ url_for('doubt') }}">Doubt Solver</a></li>
             </ul>
         </nav>
     </header>
-    <main>
-        <h2>Welcome to T.E.A.C.H</h2>
-        <p>Your Teacher Empowerment AI Content Helper.</p>
-    </main>
+    <section class="hero">
+        <div class="container">
+            <h2>Welcome to T.E.A.C.H</h2>
+            <p>Teacher Empowerment AI Content Helper</p>
+            <p>T.E.A.C.H is discontinuing their content generator and is now focused on being a student doubt solver.</p>
+        </div>
+    </section>
+    <section class="portfolio">
+        <div class="container">
+            <h2>About Me</h2>
+            <img src="{{ url_for('static', filename='profile.jpg') }}" alt="Nambu HariSaran">
+            <p>Name: Nambu HariSaran</p>
+            <p>Grade: 12</p>
+            <p>Role: Student, Developer</p>
+            <p>Skills: Python, Java, HTML, CSS</p>
+            <p>Projects: <a href="https://github.com/HARISARAN123/Leafsense" target="_blank">Leaf</a></p>
+        </div>
+    </section>
+    <footer>
+        <p>&copy; 2024 Nambu HariSaran. All rights reserved.</p>
+    </footer>
 </body>
 </html>
