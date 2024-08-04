@@ -42,12 +42,19 @@
         <p>&copy; 2024 T.E.A.C.H. All rights reserved.</p>
     </footer>
     <script>
-        function toggleTheme() {
-            const body = document.body;
-            body.classList.toggle('dark-theme');
-            const header = document.querySelector('header');
-            header.classList.toggle('dark-theme');
+<script>
+    function toggleTheme() {
+        const body = document.body;
+        if (body.classList.contains('dark-theme')) {
+            body.classList.remove('dark-theme');
+            body.classList.add('light-theme');
+        } else {
+            body.classList.remove('light-theme');
+            body.classList.add('dark-theme');
         }
+    }
+</script>
+
     </script>
 </body>
 </html>
