@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>T.E.A.C.H Portfolio</title>
+    <title>Doubt Solver</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
 </head>
 <body>
     <header>
-        <h1>T.E.A.C.H</h1>
+        <h1>T.E.A.C.H Doubt Solver</h1>
         <nav>
             <ul>
                 <li><a href="{{ url_for('home') }}">Home</a></li>
@@ -18,22 +18,20 @@
             </ul>
         </nav>
     </header>
-    <section class="hero">
+    <section class="doubt">
         <div class="container">
-            <h2>Welcome to T.E.A.C.H</h2>
-            <p>Teacher Empowerment AI Content Helper</p>
-            <p>T.E.A.C.H is discontinuing their content generator and is now focused on being a student doubt solver.</p>
-        </div>
-    </section>
-    <section class="portfolio">
-        <div class="container">
-            <h2>About Me</h2>
-            <img src="{{ url_for('static', filename='profile.jpg') }}" alt="Nambu HariSaran">
-            <p>Name: Nambu HariSaran</p>
-            <p>Grade: 12</p>
-            <p>Role: Student, Developer</p>
-            <p>Skills: Python, Java, HTML, CSS</p>
-            <p>Projects: <a href="https://github.com/HARISARAN123/Leafsense" target="_blank">Leaf</a></p>
+            <h2>Submit Your Doubt</h2>
+            <form method="POST">
+                <label for="doubt">Doubt:</label>
+                <textarea id="doubt" name="doubt" required></textarea>
+                <button type="submit">Get Answer</button>
+            </form>
+            {% if answer %}
+                <div class="answer">
+                    <h3>Answer:</h3>
+                    <p>{{ answer|safe }}</p>
+                </div>
+            {% endif %}
         </div>
     </section>
     <footer>
