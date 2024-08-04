@@ -9,25 +9,33 @@
 </head>
 <body>
     <header>
-        <h1>T.E.A.C.H</h1>
-        <button class="theme-switcher" onclick="toggleTheme()">Switch Theme</button>
+        <div class="container">
+            <h1>T.E.A.C.H</h1>
+            <button class="theme-switcher" onclick="toggleTheme()">Switch Theme</button>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('home') }}" class="nav-link">Home</a></li>
+                    <li><a href="{{ url_for('quiz') }}" class="nav-link">Quiz</a></li>
+                    <li><a href="{{ url_for('doubt') }}" class="nav-link">Doubt Solver</a></li>
+                </ul>
+            </nav>
+        </div>
     </header>
     <div class="container">
         <section class="hero">
             <h2>Welcome to T.E.A.C.H</h2>
             <p>Your go-to platform for educational content and assistance.</p>
         </section>
-        <section class="portfolio">
-            <img src="{{ url_for('static', filename='your-photo.jpg') }}" alt="Nambu HariSaran">
-            <h3>Nambu HariSaran</h3>
+        <section>
+            <h2>What is T.E.A.C.H?</h2>
+            <p>T.E.A.C.H stands for Teacher Empowerment AI Content Helper. Initially, it aimed to provide educational content, but now it's evolving to focus solely on solving students' doubts effectively.</p>
+        </section>
+        <section class="info">
+            <h3>About Nambu HariSaran</h3>
             <p>12th Grade Student & Developer</p>
             <p>Skills: Python, Java, HTML, CSS</p>
             <p>My Projects:</p>
             <p><a href="https://github.com/HARISARAN123/Leafsense" target="_blank">Leaf</a></p>
-        </section>
-        <section>
-            <h2>What is T.E.A.C.H?</h2>
-            <p>T.E.A.C.H stands for Teacher Empowerment AI Content Helper. Initially, it aimed to provide educational content, but now it's evolving to focus solely on solving students' doubts effectively.</p>
         </section>
     </div>
     <footer>
@@ -38,18 +46,7 @@
             const body = document.body;
             body.classList.toggle('dark-theme');
             const header = document.querySelector('header');
-            const container = document.querySelector('.container');
-            const hero = document.querySelector('.hero');
-            const questions = document.querySelectorAll('.question');
-            const answers = document.querySelectorAll('.answer');
-            const footer = document.querySelector('footer');
-
             header.classList.toggle('dark-theme');
-            container.classList.toggle('dark-theme');
-            hero.classList.toggle('dark-theme');
-            questions.forEach(q => q.classList.toggle('dark-theme'));
-            answers.forEach(a => a.classList.toggle('dark-theme'));
-            footer.classList.toggle('dark-theme');
         }
     </script>
 </body>
