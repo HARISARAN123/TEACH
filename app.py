@@ -1,24 +1,17 @@
 import logging
 import re
 import requests
-from flask import Flask, request, render_template, redirect, url_for, jsonify
-import os
+from flask import Flask, request, render_template, redirect, url_for
 
 app = Flask(__name__)
 
-# Set up logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# Load API key from environment variables
-GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')
-
 def format_bold(text):
-    """Convert **text** to <strong>text</strong>."""
     return re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', text)
 
 def generate_quiz_question(subject, difficulty):
-    """Generate a quiz question based on the subject and difficulty."""
     url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key={GEMINI_API_KEY}"
     headers = {"Content-Type": "application/json"}
     data = {
@@ -41,7 +34,6 @@ def generate_quiz_question(subject, difficulty):
         return "Error fetching question. Please try again later."
 
 def generate_doubt_answer(doubt):
-    """Generate an answer for a given doubt."""
     url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key={GEMINI_API_KEY}"
     headers = {"Content-Type": "application/json"}
     data = {
@@ -63,18 +55,34 @@ def generate_doubt_answer(doubt):
         logger.error(f"Request failed: {e}")
         return "Error fetching answer. Please try again later."
 
+def generate_video_content(topic):
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key={GEMINI_API_KEY}"
+    headers = {"Content-Type": "application/json"}
+    data = {
+        "contents": [{"parts": [{"text": f"Generate a video content to explain the topic: {topic}"}]}]
+    }
+
+    try:
+        response = requests.post(url, headers=headers, json=data)
+        logger.info(f"Response status code: {response.status_code}")
+        logger.info(f"Response content: {response.text}")
+        response.raise_for_status()
+
+        response_data = response.json()
+        video_content = response_data.get('candidates', [{}])[0].get('content', {}).get('parts', [{}])[0].get('text', 'No video content available')
+        formatted_video_content = format_bold(video_content)
+        return formatted_video_content
+
+    except requests.exceptions.RequestException as e:
+        logger.error(f"Request failed: {e}")
+        return "Error fetching video content. Please try again later."
+
 @app.route('/')
 def home():
-    """Render the home page."""
-    try:
-        return render_template('index.html')
-    except Exception as e:
-        logger.error(f"Error rendering template: {e}")
-        return jsonify({'error': 'An error occurred while rendering the page.'}), 500
+    return render_template('index.html')
 
 @app.route('/quiz', methods=['GET', 'POST'])
 def quiz():
-    """Handle quiz generation."""
     if request.method == 'POST':
         subject = request.form.get('subject')
         difficulty = request.form.get('difficulty')
@@ -84,13 +92,19 @@ def quiz():
 
 @app.route('/doubt', methods=['GET', 'POST'])
 def doubt():
-    """Handle doubt resolution."""
     if request.method == 'POST':
         doubt = request.form.get('doubt')
         answer = generate_doubt_answer(doubt)
         return render_template('doubt.html', answer=answer)
     return render_template('doubt.html')
 
+@app.route('/ai-content', methods=['GET', 'POST'])
+def ai_content():
+    if request.method == 'POST':
+        topic = request.form.get('topic')
+        video_content = generate_video_content(topic)
+        return render_template('ai_content.html', video_content=video_content)
+    return render_template('ai_content.html')
+
 if __name__ == '__main__':
-    # Run the app in debug mode
     app.run(debug=True)
