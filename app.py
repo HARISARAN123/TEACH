@@ -55,11 +55,11 @@ def generate_doubt_answer(doubt):
         logger.error(f"Request failed: {e}")
         return "Error fetching answer. Please try again later."
 
-def generate_video_content(topic):
+def generate_ai_content(subject):
     url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key={GEMINI_API_KEY}"
     headers = {"Content-Type": "application/json"}
     data = {
-        "contents": [{"parts": [{"text": f"Generate a video content to explain the topic: {topic}"}]}]
+        "contents": [{"parts": [{"text": f"Generate an educational video script for {subject}"}]}]
     }
 
     try:
@@ -69,13 +69,13 @@ def generate_video_content(topic):
         response.raise_for_status()
 
         response_data = response.json()
-        video_content = response_data.get('candidates', [{}])[0].get('content', {}).get('parts', [{}])[0].get('text', 'No video content available')
-        formatted_video_content = format_bold(video_content)
-        return formatted_video_content
+        content = response_data.get('candidates', [{}])[0].get('content', {}).get('parts', [{}])[0].get('text', 'No content available')
+        formatted_content = format_bold(content)
+        return formatted_content
 
     except requests.exceptions.RequestException as e:
         logger.error(f"Request failed: {e}")
-        return "Error fetching video content. Please try again later."
+        return "Error fetching content. Please try again later."
 
 @app.route('/')
 def home():
@@ -98,12 +98,12 @@ def doubt():
         return render_template('doubt.html', answer=answer)
     return render_template('doubt.html')
 
-@app.route('/ai-content', methods=['GET', 'POST'])
+@app.route('/ai_content', methods=['GET', 'POST'])
 def ai_content():
     if request.method == 'POST':
-        topic = request.form.get('topic')
-        video_content = generate_video_content(topic)
-        return render_template('ai_content.html', video_content=video_content)
+        subject = request.form.get('subject')
+        content = generate_ai_content(subject)
+        return render_template('ai_content.html', content=content)
     return render_template('ai_content.html')
 
 if __name__ == '__main__':
