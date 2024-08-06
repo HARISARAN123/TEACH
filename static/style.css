@@ -1,10 +1,9 @@
-/* Basic Styles */
+/* Global Styles */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
     background-color: #f0f0f0;
-    color: #333;
     transition: background-color 0.3s, color 0.3s;
 }
 
@@ -13,55 +12,47 @@ header {
     color: #fff;
     padding: 1em 0;
     text-align: center;
-    transition: background-color 0.3s, color 0.3s;
 }
 
 header h1 {
     margin: 0;
-    font-size: 2em;
-}
-
-header .theme-switcher {
-    background: #007BFF;
-    color: #fff;
-    border: none;
-    padding: 0.5em 1em;
-    cursor: pointer;
-    margin-top: 10px;
-    border-radius: 4px;
-    transition: background-color 0.3s;
-}
-
-header .theme-switcher:hover {
-    background: #0056b3;
 }
 
 nav ul {
     list-style: none;
     padding: 0;
-    display: flex;
-    justify-content: center;
+    text-align: center;
     background-color: #444;
     margin: 0;
-    border-radius: 5px;
 }
 
 nav ul li {
-    margin: 0;
+    display: inline;
+    margin: 0 10px;
 }
 
-nav ul li a {
+nav ul li a, nav ul li button {
     color: #fff;
     text-decoration: none;
-    display: block;
-    padding: 1em 2em;
+    padding: 0.5em 1em;
+    display: inline-block;
+    border: none;
+    background: none;
+    cursor: pointer;
+    border-radius: 4px;
     transition: background-color 0.3s, color 0.3s;
-    font-size: 1.1em;
 }
 
 nav ul li a:hover {
+    background-color: #555;
+}
+
+nav ul li button {
     background-color: #007BFF;
-    color: #fff;
+}
+
+nav ul li button:hover {
+    background-color: #0056b3;
 }
 
 .container {
@@ -69,9 +60,8 @@ nav ul li a:hover {
     margin: 2em auto;
     background-color: #fff;
     padding: 2em;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
-    transition: background-color 0.3s, color 0.3s;
 }
 
 .hero {
@@ -84,30 +74,68 @@ nav ul li a:hover {
 }
 
 .hero h2 {
-    margin: 0 0 0.5em 0;
-    font-size: 2em;
+    margin: 0;
 }
 
 .hero p {
     margin: 0;
-    font-size: 1.2em;
 }
 
-.info {
-    text-align: center;
-    margin-top: 2em;
+.info, .team-info {
+    margin-bottom: 2em;
 }
 
-.info p {
-    margin: 0.5em 0;
-    font-size: 1.2em;
-}
-
-.info img {
+.profile img {
+    max-width: 150px;
     border-radius: 50%;
-    width: 150px;
-    height: 150px;
+}
+
+.profile p {
+    margin: 0.5em 0;
+}
+
+.quiz-form, .doubt-form {
+    background-color: #f9f9f9;
+    padding: 1em;
+    border-radius: 8px;
+}
+
+form label {
     margin-top: 1em;
+    font-weight: bold;
+}
+
+form input, form textarea {
+    width: 100%;
+    padding: 0.8em;
+    margin-top: 0.5em;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 1em;
+}
+
+form button {
+    padding: 0.7em;
+    margin-top: 1em;
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+form button:hover {
+    background-color: #0056b3;
+}
+
+.question, .answer {
+    margin-top: 2em;
+    padding: 1em;
+    background-color: #f9f9f9;
+    border-left: 4px solid #007BFF;
+    border-radius: 8px;
 }
 
 footer {
@@ -118,163 +146,52 @@ footer {
     position: fixed;
     bottom: 0;
     width: 100%;
-    transition: background-color 0.3s, color 0.3s;
 }
 
 /* Dark Theme Styles */
-.dark-theme {
-    background-color: #333;
-    color: #fff;
+body.dark-theme {
+    background-color: #121212;
+    color: #e0e0e0;
 }
 
-.dark-theme header {
-    background-color: #222;
+header.dark-theme {
+    background-color: #1e1e1e;
 }
 
-.dark-theme .container {
-    background-color: #444;
-    color: #fff;
+nav ul.dark-theme {
+    background-color: #2e2e2e;
 }
 
-.dark-theme nav ul {
-    background-color: #222;
+nav ul li a.dark-theme {
+    color: #e0e0e0;
 }
 
-.dark-theme nav ul li a {
-    color: #fff;
+nav ul li a.dark-theme:hover {
+    background-color: #3e3e3e;
 }
 
-.dark-theme nav ul li a:hover {
-    background-color: #0056b3;
-    color: #fff;
+nav ul li button.dark-theme {
+    background-color: #1e88e5;
 }
 
-.dark-theme .hero {
-    background: #0056b3;
+nav ul li button.dark-theme:hover {
+    background-color: #1565c0;
 }
 
-.dark-theme footer {
-    background-color: #222;
+.container.dark-theme {
+    background-color: #1e1e1e;
+    color: #e0e0e0;
 }
 
-.dark-theme .question, .dark-theme .answer {
-    background: #333;
-    border-left: 4px solid #007BFF;
+.hero.dark-theme {
+    background: #1e88e5;
 }
 
-.dark-theme input, .dark-theme textarea {
-    background: #555;
-    color: #fff;
-    border: 1px solid #777;
+.question.dark-theme, .answer.dark-theme {
+    background-color: #1e1e1e;
+    border-left: 4px solid #1e88e5;
 }
 
-.dark-theme input:focus, .dark-theme textarea:focus {
-    border-color: #007BFF;
+footer.dark-theme {
+    background-color: #1e1e1e;
 }
-
-/* Light Theme Styles */
-.light-theme {
-    background-color: #f0f0f0;
-    color: #333;
-}
-
-.light-theme header {
-    background-color: #fff;
-    color: #333;
-}
-
-.light-theme .container {
-    background-color: #fff;
-    color: #333;
-}
-
-.light-theme nav ul {
-    background-color: #ddd;
-}
-
-.light-theme nav ul li a {
-    color: #333;
-}
-
-.light-theme nav ul li a:hover {
-    background-color: #007BFF;
-    color: #fff;
-}
-
-.light-theme .hero {
-    background: #007BFF;
-}
-
-.light-theme footer {
-    background-color: #fff;
-    color: #333;
-}
-
-/* Quiz and Doubt Page Styles */
-.quiz, .doubt {
-    background: #f9f9f9;
-    padding: 2em;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin-top: 2em;
-}
-
-.quiz h2, .doubt h2 {
-    font-size: 1.8em;
-    margin-bottom: 1em;
-}
-
-.quiz .question, .doubt .answer {
-    background: #fff;
-    padding: 1em;
-    border-radius: 4px;
-    border-left: 4px solid #007BFF;
-    margin-top: 1em;
-    transition: background-color 0.3s;
-}
-
-.quiz .question:hover, .doubt .answer:hover {
-    background-color: #e9ecef;
-}
-
-.quiz form, .doubt form {
-    margin-top: 1em;
-}
-
-.quiz form label, .doubt form label {
-    display: block;
-    margin-top: 1em;
-    font-size: 1.1em;
-}
-
-.quiz form input, .doubt form input, .quiz form textarea, .doubt form textarea {
-    width: 100%;
-    padding: 0.8em;
-    margin-top: 0.5em;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 1em;
-    transition: border-color 0.3s, background-color 0.3s;
-}
-
-.quiz form input:focus, .doubt form input:focus, .quiz form textarea:focus, .doubt form textarea:focus {
-    border-color: #007BFF;
-    background-color: #f8f9fa;
-}
-
-.quiz form button, .doubt form button {
-    padding: 0.7em;
-    margin-top: 1em;
-    background-color: #007BFF;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 1.1em;
-    transition: background-color 0.3s;
-}
-
-.quiz form button:hover, .doubt form button:hover {
-    background-color: #0056b3;
-}
-
