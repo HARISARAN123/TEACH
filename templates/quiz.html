@@ -8,7 +8,7 @@
 </head>
 <body>
     <header>
-        <h1>T.E.A.C.H Quiz</h1>
+        <h1>Quiz</h1>
         <nav>
             <ul>
                 <li><a href="{{ url_for('home') }}">Home</a></li>
@@ -17,38 +17,22 @@
             </ul>
         </nav>
     </header>
-    <div class="container">
-        {% if question %}
-        <form method="post">
-            <div class="question">
-                <h2>Question:</h2>
+    <main class="container">
+        <div class="question-section">
+            <h2>Quiz Question</h2>
+            {% if question %}
                 <p>{{ question|safe }}</p>
-                <label for="user_answer">Your Answer:</label>
-                <input type="text" id="user_answer" name="user_answer" required>
-                <input type="hidden" name="correct_answer" value="{{ correct_answer }}">
-                <button type="submit" name="submit_answer">Submit Answer</button>
-            </div>
-        </form>
-        {% elif feedback %}
-        <div class="feedback">
-            <p>{{ feedback }}</p>
+                <form method="POST">
+                    {% for option in options %}
+                        <button type="submit" name="user_answer" value="{{ option[0] }}">{{ option[0] }}) {{ option[1] }}</button>
+                    {% endfor %}
+                    <input type="hidden" name="correct_answer" value="{{ correct_answer }}">
+                </form>
+            {% endif %}
+            {% if feedback %}
+                <p>{{ feedback }}</p>
+            {% endif %}
         </div>
-        {% endif %}
-        <form method="post">
-            <label for="subject">Subject:</label>
-            <input type="text" id="subject" name="subject" required>
-            <label for="syllabus">Syllabus:</label>
-            <input type="text" id="syllabus" name="syllabus" required>
-            <label for="grade">Grade:</label>
-            <input type="text" id="grade" name="grade" required>
-            <label for="difficulty">Difficulty:</label>
-            <select id="difficulty" name="difficulty" required>
-                <option value="easy">Easy</option>
-                <option value="medium">Medium</option>
-                <option value="hard">Hard</option>
-            </select>
-            <button type="submit">Generate Question</button>
-        </form>
-    </div>
+    </main>
 </body>
 </html>
