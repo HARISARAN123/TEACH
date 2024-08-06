@@ -3,41 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Doubt Solver</title>
+    <title>Doubt Solver - T.E.A.C.H</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='icon.png') }}" type="image/png">
 </head>
-<body class="{{ 'dark-theme' if dark_mode else 'light-theme' }}">
+<body>
     <header>
         <h1>T.E.A.C.H</h1>
-        <button class="theme-switcher" onclick="toggleTheme()">Switch Theme</button>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+                <li><a href="{{ url_for('quiz') }}">Quiz</a></li>
+                <li><a href="{{ url_for('doubt') }}">Doubt Solver</a></li>
+                <li><button id="theme-toggle">Toggle Theme</button></li>
+            </ul>
+        </nav>
     </header>
-    <nav>
-        <ul>
-            <li><a href="{{ url_for('home') }}">Home</a></li>
-            <li><a href="{{ url_for('quiz') }}">Quiz</a></li>
-            <li><a href="{{ url_for('doubt') }}">Doubt</a></li>
-        </ul>
-    </nav>
-    <div class="container doubt">
-        <h2>Doubt Solver</h2>
-        <!-- Doubt content here -->
-        <form method="post">
-            <label for="doubt">Your Doubt:</label>
-            <textarea id="doubt" name="doubt" rows="4" required></textarea>
-            <button type="submit">Submit</button>
-        </form>
-        {% if answer %}
-            <div class="answer">{{ answer|safe }}</div>
-        {% endif %}
-    </div>
+
+    <main class="container">
+        <section class="hero">
+            <h2>Doubt Solver</h2>
+        </section>
+
+        <section class="doubt-form">
+            <form method="POST" action="{{ url_for('doubt') }}">
+                <label for="doubt">Enter your doubt:</label>
+                <textarea id="doubt" name="doubt" rows="6" required></textarea>
+                <button type="submit">Submit Doubt</button>
+            </form>
+
+            {% if answer %}
+            <div class="answer">
+                <h3>Answer:</h3>
+                <p>{{ answer|safe }}</p>
+            </div>
+            {% endif %}
+        </section>
+    </main>
+
     <footer>
-        <p>&copy; 2024 Nambu HariSaran</p>
+        <p>&copy; 2024 Nambu HariSaran. All rights reserved.</p>
     </footer>
-    <script>
-        function toggleTheme() {
-            document.body.classList.toggle('dark-theme');
-            document.body.classList.toggle('light-theme');
-        }
-    </script>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
