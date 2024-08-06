@@ -3,44 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz</title>
+    <title>Quiz - T.E.A.C.H</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='icon.png') }}" type="image/png">
 </head>
-<body class="{{ 'dark-theme' if dark_mode else 'light-theme' }}">
+<body>
     <header>
         <h1>T.E.A.C.H</h1>
-        <button class="theme-switcher" onclick="toggleTheme()">Switch Theme</button>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+                <li><a href="{{ url_for('quiz') }}">Quiz</a></li>
+                <li><a href="{{ url_for('doubt') }}">Doubt Solver</a></li>
+                <li><button id="theme-toggle">Toggle Theme</button></li>
+            </ul>
+        </nav>
     </header>
-    <nav>
-        <ul>
-            <li><a href="{{ url_for('home') }}">Home</a></li>
-            <li><a href="{{ url_for('quiz') }}">Quiz</a></li>
-            <li><a href="{{ url_for('doubt') }}">Doubt</a></li>
-        </ul>
-    </nav>
-    <div class="container quiz">
-        <h2>Quiz Page</h2>
-        <!-- Quiz content here -->
-        <form method="post">
-            <label for="subject">Subject:</label>
-            <input type="text" id="subject" name="subject" required>
-            <label for="difficulty">Difficulty:</label>
-            <input type="text" id="difficulty" name="difficulty" required>
-            <button type="submit">Generate Question</button>
-        </form>
-        {% if question %}
-            <div class="question">{{ question|safe }}</div>
-        {% endif %}
-    </div>
+
+    <main class="container">
+        <section class="hero">
+            <h2>Quiz Generator</h2>
+        </section>
+
+        <section class="quiz-form">
+            <form method="POST" action="{{ url_for('quiz') }}">
+                <label for="subject">Subject:</label>
+                <input type="text" id="subject" name="subject" required>
+                
+                <label for="syllabus">Syllabus:</label>
+                <input type="text" id="syllabus" name="syllabus" required>
+                
+                <label for="grade">Grade:</label>
+                <input type="number" id="grade" name="grade" min="1" max="12" required>
+                
+                <button type="submit">Generate Question</button>
+            </form>
+
+            {% if question %}
+            <div class="question">
+                <h3>Generated Question:</h3>
+                <p>{{ question|safe }}</p>
+                <form method="POST" action="{{ url_for('check_answer') }}">
+                    <input type="hidden" name="question" value="{{ question }}">
+                    <label for="user_answer">Your Answer:</label>
+                    <textarea id="user_answer" name="user_answer" rows="4" required></textarea>
+                    <button type="submit">Submit Answer</button>
+                </form>
+            </div>
+            {% endif %}
+        </section>
+    </main>
+
     <footer>
-        <p>&copy; 2024 Nambu HariSaran</p>
+        <p>&copy; 2024 Nambu HariSaran. All rights reserved.</p>
     </footer>
-    <script>
-        function toggleTheme() {
-            document.body.classList.toggle('dark-theme');
-            document.body.classList.toggle('light-theme');
-        }
-    </script>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
-
