@@ -28,9 +28,24 @@
                     {% endfor %}
                     <input type="hidden" name="correct_answer" value="{{ correct_answer }}">
                 </form>
-            {% endif %}
-            {% if feedback %}
+            {% elif feedback %}
                 <p>{{ feedback }}</p>
+            {% else %}
+                <form method="POST">
+                    <label for="subject">Subject:</label>
+                    <input type="text" id="subject" name="subject" required>
+                    <label for="syllabus">Syllabus:</label>
+                    <input type="text" id="syllabus" name="syllabus" required>
+                    <label for="grade">Grade:</label>
+                    <input type="text" id="grade" name="grade" required>
+                    <label for="difficulty">Difficulty:</label>
+                    <select id="difficulty" name="difficulty" required>
+                        <option value="easy">Easy</option>
+                        <option value="medium">Medium</option>
+                        <option value="hard">Hard</option>
+                    </select>
+                    <button type="submit">Generate Question</button>
+                </form>
             {% endif %}
         </div>
     </main>
