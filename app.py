@@ -1,7 +1,7 @@
+from flask import Flask, request, render_template, redirect, url_for, jsonify
 import logging
 import re
 import requests
-from flask import Flask, request, render_template, redirect, url_for, jsonify
 import os
 
 app = Flask(__name__)
@@ -17,12 +17,12 @@ def format_bold(text):
     """Convert **text** to <strong>text</strong>."""
     return re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', text)
 
-def generate_quiz_question(subject, difficulty):
-    """Generate a quiz question based on the subject and difficulty."""
+def generate_quiz_question(subject, syllabus, grade, difficulty):
+    """Generate a quiz question based on the subject, syllabus, grade, and difficulty."""
     url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key={GEMINI_API_KEY}"
     headers = {"Content-Type": "application/json"}
     data = {
-        "contents": [{"parts": [{"text": f"Generate a quiz question for {subject} at {difficulty} difficulty"}]}]
+        "contents": [{"parts": [{"text": f"Generate a quiz question for {subject} covering {syllabus} for grade {grade} at {difficulty} difficulty"}]}]
     }
 
     try:
@@ -77,10 +77,22 @@ def quiz():
     """Handle quiz generation."""
     if request.method == 'POST':
         subject = request.form.get('subject')
+        syllabus = request.form.get('syllabus')
+        grade = request.form.get('grade')
         difficulty = request.form.get('difficulty')
-        question = generate_quiz_question(subject, difficulty)
+        question = generate_quiz_question(subject, syllabus, grade, difficulty)
         return render_template('quiz.html', question=question)
     return render_template('quiz.html')
+
+@app.route('/check_answer', methods=['POST'])
+def check_answer():
+    """Check user's answer against the generated question."""
+    user_answer = request.form.get('user_answer')
+    question = request.form.get('question')
+    correct_answer = generate_quiz_question(
+        subject="Science", syllabus="Chapter 1", grade="10", difficulty="medium"  # Dummy values for example
+    )
+    return render_template('quiz.html', question=question, user_answer=user_answer, correct_answer=correct_answer)
 
 @app.route('/doubt', methods=['GET', 'POST'])
 def doubt():
@@ -92,5 +104,4 @@ def doubt():
     return render_template('doubt.html')
 
 if __name__ == '__main__':
-    # Run the app in debug mode
     app.run(debug=True)
