@@ -18,11 +18,11 @@ def format_bold(text):
     return re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', text)
 
 def generate_quiz_question(subject, syllabus, grade, difficulty):
-    """Generate a quiz question based on the subject, syllabus, grade, and difficulty."""
+    """Generate a quiz question with multiple-choice options based on subject, syllabus, grade, and difficulty."""
     url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key={GEMINI_API_KEY}"
     headers = {"Content-Type": "application/json"}
     data = {
-        "contents": [{"parts": [{"text": f"Generate a quiz question for {subject} with syllabus {syllabus}, grade {grade}, and {difficulty} difficulty"}]}]
+        "contents": [{"parts": [{"text": f"Generate a multiple-choice question with options A, B, C, D for {subject} with syllabus {syllabus}, grade {grade}, and {difficulty} difficulty"}]}]
     }
 
     try:
@@ -36,38 +36,28 @@ def generate_quiz_question(subject, syllabus, grade, difficulty):
             content = response_data['candidates'][0].get('content', {})
             question_parts = content.get('parts', [{}])
             question_text = question_parts[0].get('text', 'No question available')
-            # Attempt to get the answer from the response if available
-            answer_text = question_parts[1].get('text', 'No answer available') if len(question_parts) > 1 else 'No answer available'
+            options = []
+            correct_option = ''
+            # Parsing options from the response
+            for part in question_parts[1:]:
+                option_text = part.get('text', '')
+                if option_text.startswith('A)'):
+                    options.append(('A', option_text[2:].strip()))
+                elif option_text.startswith('B)'):
+                    options.append(('B', option_text[2:].strip()))
+                elif option_text.startswith('C)'):
+                    options.append(('C', option_text[2:].strip()))
+                elif option_text.startswith('D)'):
+                    options.append(('D', option_text[2:].strip()))
+                elif 'Answer' in option_text:
+                    correct_option = re.search(r'Answer:\s*(\w)', option_text).group(1)
+            
             formatted_question = format_bold(question_text)
-            return formatted_question, answer_text
-        return "No question available", None
+            return formatted_question, options, correct_option
 
     except requests.exceptions.RequestException as e:
         logger.error(f"Request failed: {e}")
-        return "Error fetching question. Please try again later.", None
-
-def generate_doubt_answer(doubt):
-    """Generate an answer for a given doubt."""
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key={GEMINI_API_KEY}"
-    headers = {"Content-Type": "application/json"}
-    data = {
-        "contents": [{"parts": [{"text": f"Answer the following question in detail: {doubt}"}]}]
-    }
-
-    try:
-        response = requests.post(url, headers=headers, json=data)
-        logger.info(f"Response status code: {response.status_code}")
-        logger.info(f"Response content: {response.text}")
-        response.raise_for_status()
-
-        response_data = response.json()
-        answer = response_data.get('candidates', [{}])[0].get('content', {}).get('parts', [{}])[0].get('text', 'No answer available')
-        formatted_answer = format_bold(answer)
-        return formatted_answer
-
-    except requests.exceptions.RequestException as e:
-        logger.error(f"Request failed: {e}")
-        return "Error fetching answer. Please try again later."
+        return "Error fetching question. Please try again later.", [], None
 
 @app.route('/')
 def home():
@@ -80,7 +70,7 @@ def home():
 
 @app.route('/quiz', methods=['GET', 'POST'])
 def quiz():
-    """Handle quiz generation."""
+    """Handle quiz generation and answer verification."""
     if request.method == 'POST':
         subject = request.form.get('subject')
         syllabus = request.form.get('syllabus')
@@ -90,14 +80,14 @@ def quiz():
         correct_answer = request.form.get('correct_answer')
 
         if user_answer:
-            if user_answer.strip().lower() == correct_answer.strip().lower():
+            if user_answer.strip().upper() == correct_answer.upper():
                 feedback = "Correct answer!"
             else:
                 feedback = f"Incorrect. The correct answer was: {correct_answer}"
             return render_template('quiz.html', feedback=feedback)
 
-        question, correct_answer = generate_quiz_question(subject, syllabus, grade, difficulty)
-        return render_template('quiz.html', question=question, correct_answer=correct_answer)
+        question, options, correct_answer = generate_quiz_question(subject, syllabus, grade, difficulty)
+        return render_template('quiz.html', question=question, options=options, correct_answer=correct_answer)
     
     return render_template('quiz.html')
 
