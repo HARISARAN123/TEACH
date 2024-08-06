@@ -3,61 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz - T.E.A.C.H</title>
+    <title>Quiz</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <link rel="icon" href="{{ url_for('static', filename='icon.png') }}" type="image/png">
 </head>
 <body>
     <header>
-        <h1>T.E.A.C.H</h1>
+        <h1>T.E.A.C.H Quiz</h1>
         <nav>
             <ul>
                 <li><a href="{{ url_for('home') }}">Home</a></li>
                 <li><a href="{{ url_for('quiz') }}">Quiz</a></li>
-                <li><a href="{{ url_for('doubt') }}">Doubt Solver</a></li>
-                <li><button id="theme-toggle">Toggle Theme</button></li>
+                <li><a href="{{ url_for('doubt') }}">Doubt</a></li>
             </ul>
         </nav>
     </header>
-
-    <main class="container">
-        <section class="hero">
-            <h2>Quiz Generator</h2>
-        </section>
-
-        <section class="quiz-form">
-            <form method="POST" action="{{ url_for('quiz') }}">
-                <label for="subject">Subject:</label>
-                <input type="text" id="subject" name="subject" required>
-                
-                <label for="syllabus">Syllabus:</label>
-                <input type="text" id="syllabus" name="syllabus" required>
-                
-                <label for="grade">Grade:</label>
-                <input type="number" id="grade" name="grade" min="1" max="12" required>
-                
-                <button type="submit">Generate Question</button>
-            </form>
-
-            {% if question %}
+    <div class="container">
+        {% if question %}
+        <form method="post">
             <div class="question">
-                <h3>Generated Question:</h3>
+                <h2>Question:</h2>
                 <p>{{ question|safe }}</p>
-                <form method="POST" action="{{ url_for('check_answer') }}">
-                    <input type="hidden" name="question" value="{{ question }}">
-                    <label for="user_answer">Your Answer:</label>
-                    <textarea id="user_answer" name="user_answer" rows="4" required></textarea>
-                    <button type="submit">Submit Answer</button>
-                </form>
+                <label for="user_answer">Your Answer:</label>
+                <input type="text" id="user_answer" name="user_answer" required>
+                <input type="hidden" name="correct_answer" value="{{ correct_answer }}">
+                <button type="submit" name="submit_answer">Submit Answer</button>
             </div>
-            {% endif %}
-        </section>
-    </main>
-
-    <footer>
-        <p>&copy; 2024 Nambu HariSaran. All rights reserved.</p>
-    </footer>
-
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
+        </form>
+        {% elif feedback %}
+        <div class="feedback">
+            <p>{{ feedback }}</p>
+        </div>
+        {% endif %}
+        <form method="post">
+            <label for="subject">Subject:</label>
+            <input type="text" id="subject" name="subject" required>
+            <label for="syllabus">Syllabus:</label>
+            <input type="text" id="syllabus" name="syllabus" required>
+            <label for="grade">Grade:</label>
+            <input type="text" id="grade" name="grade" required>
+            <label for="difficulty">Difficulty:</label>
+            <select id="difficulty" name="difficulty" required>
+                <option value="easy">Easy</option>
+                <option value="medium">Medium</option>
+                <option value="hard">Hard</option>
+            </select>
+            <button type="submit">Generate Question</button>
+        </form>
+    </div>
 </body>
 </html>
