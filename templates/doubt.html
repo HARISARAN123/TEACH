@@ -3,48 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Doubt Solver - T.E.A.C.H</title>
+    <title>Doubt</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <link rel="icon" href="{{ url_for('static', filename='icon.png') }}" type="image/png">
 </head>
 <body>
     <header>
-        <h1>T.E.A.C.H</h1>
+        <h1>T.E.A.C.H Doubt Solver</h1>
         <nav>
             <ul>
                 <li><a href="{{ url_for('home') }}">Home</a></li>
                 <li><a href="{{ url_for('quiz') }}">Quiz</a></li>
-                <li><a href="{{ url_for('doubt') }}">Doubt Solver</a></li>
-                <li><button id="theme-toggle">Toggle Theme</button></li>
+                <li><a href="{{ url_for('doubt') }}">Doubt</a></li>
             </ul>
         </nav>
     </header>
-
-    <main class="container">
-        <section class="hero">
-            <h2>Doubt Solver</h2>
-        </section>
-
-        <section class="doubt-form">
-            <form method="POST" action="{{ url_for('doubt') }}">
-                <label for="doubt">Enter your doubt:</label>
-                <textarea id="doubt" name="doubt" rows="6" required></textarea>
-                <button type="submit">Submit Doubt</button>
-            </form>
-
-            {% if answer %}
-            <div class="answer">
-                <h3>Answer:</h3>
-                <p>{{ answer|safe }}</p>
-            </div>
-            {% endif %}
-        </section>
-    </main>
-
-    <footer>
-        <p>&copy; 2024 Nambu HariSaran. All rights reserved.</p>
-    </footer>
-
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <div class="container">
+        {% if answer %}
+        <div class="answer">
+            <h2>Answer:</h2>
+            <p>{{ answer|safe }}</p>
+        </div>
+        {% endif %}
+        <form method="post">
+            <label for="doubt">Your Doubt:</label>
+            <textarea id="doubt" name="doubt" rows="4" required></textarea>
+            <button type="submit">Submit Doubt</button>
+        </form>
+    </div>
 </body>
 </html>
