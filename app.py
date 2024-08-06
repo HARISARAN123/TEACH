@@ -32,10 +32,15 @@ def generate_quiz_question(subject, syllabus, grade, difficulty):
         response.raise_for_status()
 
         response_data = response.json()
-        question = response_data.get('candidates', [{}])[0].get('content', {}).get('parts', [{}])[0].get('text', 'No question available')
-        answer = response_data.get('candidates', [{}])[0].get('content', {}).get('parts', [{}])[1].get('text', 'No answer available')  # Fetching answer here
-        formatted_question = format_bold(question)
-        return formatted_question, answer
+        if 'candidates' in response_data and response_data['candidates']:
+            content = response_data['candidates'][0].get('content', {})
+            question_parts = content.get('parts', [{}])
+            question_text = question_parts[0].get('text', 'No question available')
+            # Attempt to get the answer from the response if available
+            answer_text = question_parts[1].get('text', 'No answer available') if len(question_parts) > 1 else 'No answer available'
+            formatted_question = format_bold(question_text)
+            return formatted_question, answer_text
+        return "No question available", None
 
     except requests.exceptions.RequestException as e:
         logger.error(f"Request failed: {e}")
@@ -77,24 +82,23 @@ def home():
 def quiz():
     """Handle quiz generation."""
     if request.method == 'POST':
-        if 'submit_answer' in request.form:
-            user_answer = request.form.get('user_answer')
-            correct_answer = request.form.get('correct_answer')
-            if user_answer.strip().lower() == correct_answer.strip().lower():
-                feedback = "Correct!"
-            else:
-                feedback = f"Wrong! The correct answer was: {correct_answer}"
-            return render_template('quiz.html', feedback=feedback)
-
         subject = request.form.get('subject')
         syllabus = request.form.get('syllabus')
         grade = request.form.get('grade')
         difficulty = request.form.get('difficulty')
-        question, correct_answer = generate_quiz_question(subject, syllabus, grade, difficulty)
-        if correct_answer:
-            return render_template('quiz.html', question=question, correct_answer=correct_answer)
-        return render_template('quiz.html', question=question)
+        user_answer = request.form.get('user_answer')
+        correct_answer = request.form.get('correct_answer')
 
+        if user_answer:
+            if user_answer.strip().lower() == correct_answer.strip().lower():
+                feedback = "Correct answer!"
+            else:
+                feedback = f"Incorrect. The correct answer was: {correct_answer}"
+            return render_template('quiz.html', feedback=feedback)
+
+        question, correct_answer = generate_quiz_question(subject, syllabus, grade, difficulty)
+        return render_template('quiz.html', question=question, correct_answer=correct_answer)
+    
     return render_template('quiz.html')
 
 @app.route('/doubt', methods=['GET', 'POST'])
