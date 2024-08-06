@@ -6,20 +6,22 @@
     <title>Quiz</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-<body>
+<body class="{{ 'dark-theme' if dark_mode else 'light-theme' }}">
     <header>
-        <h1>T.E.A.C.H Quiz</h1>
-        <nav>
-            <ul>
-                <li><a href="{{ url_for('home') }}">Home</a></li>
-                <li><a href="{{ url_for('quiz') }}">Quiz</a></li>
-                <li><a href="{{ url_for('doubt') }}">Doubt Solver</a></li>
-            </ul>
-        </nav>
+        <h1>T.E.A.C.H</h1>
+        <button class="theme-switcher" onclick="toggleTheme()">Switch Theme</button>
     </header>
-    <section class="container">
-        <h2>Generate a Quiz Question</h2>
-        <form method="POST">
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+            <li><a href="{{ url_for('quiz') }}">Quiz</a></li>
+            <li><a href="{{ url_for('doubt') }}">Doubt</a></li>
+        </ul>
+    </nav>
+    <div class="container quiz">
+        <h2>Quiz Page</h2>
+        <!-- Quiz content here -->
+        <form method="post">
             <label for="subject">Subject:</label>
             <input type="text" id="subject" name="subject" required>
             <label for="difficulty">Difficulty:</label>
@@ -27,14 +29,18 @@
             <button type="submit">Generate Question</button>
         </form>
         {% if question %}
-            <div class="question">
-                <h3>Question:</h3>
-                <p>{{ question|safe }}</p>
-            </div>
+            <div class="question">{{ question|safe }}</div>
         {% endif %}
-    </section>
+    </div>
     <footer>
-        <p>&copy; 2024 Nambu HariSaran. All rights reserved.</p>
+        <p>&copy; 2024 Nambu HariSaran</p>
     </footer>
+    <script>
+        function toggleTheme() {
+            document.body.classList.toggle('dark-theme');
+            document.body.classList.toggle('light-theme');
+        }
+    </script>
 </body>
 </html>
+
