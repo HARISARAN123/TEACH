@@ -3,55 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>T.E.A.C.H - Home</title>
-     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+    <title>Home - T.E.A.C.H</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='icon.png') }}" type="image/png">
 </head>
 <body>
     <header>
-        <div class="container">
-            <h1>T.E.A.C.H</h1>
-            <button class="theme-switcher" onclick="toggleTheme()">Switch Theme</button>
-            <nav>
-                <ul>
-                    <li><a href="{{ url_for('home') }}" class="nav-link">Home</a></li>
-                    <li><a href="{{ url_for('quiz') }}" class="nav-link">Quiz</a></li>
-                    <li><a href="{{ url_for('doubt') }}" class="nav-link">Doubt Solver</a></li>
-                </ul>
-            </nav>
-        </div>
+        <h1>T.E.A.C.H</h1>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+                <li><a href="{{ url_for('quiz') }}">Quiz</a></li>
+                <li><a href="{{ url_for('doubt') }}">Doubt Solver</a></li>
+                <li><button id="theme-toggle">Toggle Theme</button></li>
+            </ul>
+        </nav>
     </header>
-    <div class="container">
+
+    <main class="container">
         <section class="hero">
             <h2>Welcome to T.E.A.C.H</h2>
-            <p>Your go-to platform for educational content and assistance.</p>
+            <p>Your go-to platform for interactive quizzes and doubt-solving.</p>
         </section>
-        <section>
-            <h2>What is T.E.A.C.H?</h2>
-            <p>T.E.A.C.H stands for Teacher Empowerment AI Content Helper. Initially, it aimed to provide educational content, but now it's evolving to focus solely on solving students' doubts effectively.</p>
-        </section>
+
         <section class="info">
-            <h3>About Nambu HariSaran</h3>
-            <p>12th Grade Student & Developer</p>
-            <p>Skills: Python, Java, HTML, CSS</p>
-            <p>My Projects:</p>
-            <p><a href="https://github.com/HARISARAN123/Leafsense" target="_blank">Leaf</a></p>
+            <h2>About T.E.A.C.H</h2>
+            <p>T.E.A.C.H is discontinuing its content generator and focusing on being a comprehensive doubt solver for students.</p>
         </section>
-    </div>
+
+        <section class="team-info">
+            <h2>About Me</h2>
+            <div class="profile">
+                <img src="{{ url_for('static', filename='profile.jpg') }}" alt="Nambu HariSaran">
+                <p>Name: Nambu HariSaran</p>
+                <p>Grade: 12</p>
+                <p>Student & Developer</p>
+                <p>Skills: Python, Java, HTML, CSS</p>
+                <p>Projects: <a href="https://github.com/HARISARAN123/Leafsense" target="_blank">Leaf</a></p>
+            </div>
+        </section>
+    </main>
+
     <footer>
-        <p>&copy; 2024 T.E.A.C.H. All rights reserved.</p>
+        <p>&copy; 2024 Nambu HariSaran. All rights reserved.</p>
     </footer>
-<script>
-    function toggleTheme() {
-        const body = document.body;
-        if (body.classList.contains('dark-theme')) {
-            body.classList.remove('dark-theme');
-            body.classList.add('light-theme');
-        } else {
-            body.classList.remove('light-theme');
-            body.classList.add('dark-theme');
-        }
-    }
-    </script>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
