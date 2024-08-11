@@ -105,7 +105,7 @@ form label {
     font-weight: bold;
 }
 
-form input, form textarea {
+form input, form textarea, form select {
     width: 100%;
     padding: 0.8em;
     margin-top: 0.5em;
@@ -113,6 +113,11 @@ form input, form textarea {
     border-radius: 4px;
     box-sizing: border-box;
     font-size: 1em;
+    transition: border-color 0.3s;
+}
+
+form input:focus, form textarea:focus, form select:focus {
+    border-color: #007BFF;
 }
 
 form button {
@@ -124,6 +129,7 @@ form button {
     border-radius: 4px;
     cursor: pointer;
     font-size: 1em;
+    transition: background-color 0.3s;
 }
 
 form button:hover {
@@ -136,6 +142,10 @@ form button:hover {
     background-color: #f9f9f9;
     border-left: 4px solid #007BFF;
     border-radius: 8px;
+}
+
+.question p, .answer p {
+    margin: 0;
 }
 
 footer {
@@ -185,6 +195,29 @@ nav ul li button.dark-theme:hover {
 
 .hero.dark-theme {
     background: #1e88e5;
+}
+
+.quiz-form.dark-theme, .doubt-form.dark-theme {
+    background-color: #2e2e2e;
+    border-color: #007BFF;
+}
+
+form.dark-theme input, form.dark-theme textarea, form.dark-theme select {
+    background-color: #333;
+    color: #e0e0e0;
+    border: 2px solid #444;
+}
+
+form.dark-theme input:focus, form.dark-theme textarea:focus, form.dark-theme select:focus {
+    border-color: #1e88e5;
+}
+
+form.dark-theme button {
+    background-color: #1e88e5;
+}
+
+form.dark-theme button:hover {
+    background-color: #1565c0;
 }
 
 .question.dark-theme, .answer.dark-theme {
