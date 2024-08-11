@@ -30,6 +30,7 @@
                         </div>
                     {% endfor %}
                     <input type="hidden" name="correct_answer" value="{{ correct_answer }}">
+                    <input type="hidden" name="question" value="{{ question }}">
                     <button type="submit">Submit Answer</button>
                 </form>
             {% elif feedback %}
