@@ -148,6 +148,17 @@ form button:hover {
     margin: 0;
 }
 
+.option {
+    margin-top: 1em;
+}
+
+.feedback {
+    margin-top: 2em;
+    font-weight: bold;
+    color: #007BFF;
+    text-align: center;
+}
+
 footer {
     background-color: #333;
     color: #fff;
@@ -228,4 +239,3 @@ form.dark-theme button:hover {
 footer.dark-theme {
     background-color: #1e1e1e;
 }
-
