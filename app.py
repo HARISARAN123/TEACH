@@ -40,7 +40,7 @@ def generate_quiz_question(subject, syllabus, grade, difficulty):
             content = response_data['candidates'][0].get('content', {})
             question_parts = content.get('parts', [{}])
             question_text = question_parts[0].get('text', 'No question available')
-            
+
             # Extract options and correct answer
             options = {}
             correct_option = ''
@@ -53,7 +53,7 @@ def generate_quiz_question(subject, syllabus, grade, difficulty):
                     correct_option_match = re.search(r'Answer:\s*(\w)', option_text)
                     if correct_option_match:
                         correct_option = correct_option_match.group(1).upper()
-            
+
             return question_text, options, correct_option
 
     except requests.exceptions.RequestException as e:
@@ -79,17 +79,18 @@ def quiz():
         difficulty = request.form.get('difficulty')
         user_answer = request.form.get('user_answer')
         correct_answer = request.form.get('correct_answer')
+        question = request.form.get('question')
 
         if user_answer:
             if user_answer.strip().upper() == correct_answer.upper():
                 feedback = "Correct answer!"
             else:
                 feedback = f"Incorrect. The correct answer was: {correct_answer}"
-            return render_template('quiz.html', feedback=feedback)
+            return render_template('quiz.html', feedback=feedback, question=question, options=None)
 
         question, options, correct_answer = generate_quiz_question(subject, syllabus, grade, difficulty)
         return render_template('quiz.html', question=question, options=options, correct_answer=correct_answer)
-    
+
     return render_template('quiz.html')
 
 @app.route('/doubt', methods=['GET', 'POST'])
