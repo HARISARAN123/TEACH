@@ -1,7 +1,7 @@
 import logging
 import re
 import requests
-from flask import Flask, request, render_template, redirect, url_for, jsonify
+from flask import Flask, request, render_template, jsonify
 import os
 
 app = Flask(__name__)
@@ -12,10 +12,6 @@ logger = logging.getLogger(__name__)
 
 # Load API key from environment variables
 GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')
-
-def format_bold(text):
-    """Convert **text** to <strong>text</strong>."""
-    return re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', text)
 
 def generate_quiz_question(subject, syllabus, grade, difficulty):
     """Generate a multiple-choice question (MCQ) with options A, B, C, D."""
@@ -46,30 +42,23 @@ def generate_quiz_question(subject, syllabus, grade, difficulty):
             question_text = question_parts[0].get('text', 'No question available')
             
             # Extract options and correct answer
-            options = []
+            options = {}
             correct_option = ''
             for part in question_parts[1:]:
                 option_text = part.get('text', '')
-                if option_text.startswith('A)'):
-                    options.append(('A', option_text[2:].strip()))
-                elif option_text.startswith('B)'):
-                    options.append(('B', option_text[2:].strip()))
-                elif option_text.startswith('C)'):
-                    options.append(('C', option_text[2:].strip()))
-                elif option_text.startswith('D)'):
-                    options.append(('D', option_text[2:].strip()))
+                match = re.match(r'^([A-D])\)\s*(.*)', option_text)
+                if match:
+                    options[match.group(1)] = match.group(2).strip()
                 elif 'Answer' in option_text:
                     correct_option_match = re.search(r'Answer:\s*(\w)', option_text)
                     if correct_option_match:
                         correct_option = correct_option_match.group(1).upper()
             
-            formatted_question = format_bold(question_text)
-            return formatted_question, options, correct_option
+            return question_text, options, correct_option
 
     except requests.exceptions.RequestException as e:
         logger.error(f"Request failed: {e}")
-        return "Error fetching question. Please try again later.", [], None
-
+        return "Error fetching question. Please try again later.", {}, None
 
 @app.route('/')
 def home():
@@ -113,5 +102,4 @@ def doubt():
     return render_template('doubt.html')
 
 if __name__ == '__main__':
-    # Run the app in debug mode
     app.run(debug=True)
