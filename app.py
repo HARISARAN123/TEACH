@@ -18,11 +18,19 @@ def format_bold(text):
     return re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', text)
 
 def generate_quiz_question(subject, syllabus, grade, difficulty):
-    """Generate a quiz question with multiple-choice options based on subject, syllabus, grade, and difficulty."""
+    """Generate a multiple-choice question (MCQ) with options A, B, C, D."""
     url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key={GEMINI_API_KEY}"
     headers = {"Content-Type": "application/json"}
     data = {
-        "contents": [{"parts": [{"text": f"Generate a multiple-choice question with options A, B, C, D for {subject} with syllabus {syllabus}, grade {grade}, and {difficulty} difficulty"}]}]
+        "contents": [
+            {
+                "parts": [
+                    {
+                        "text": f"Generate a multiple-choice question (MCQ) with four options (A, B, C, D) for {subject} with syllabus {syllabus}, grade {grade}, and {difficulty} difficulty."
+                    }
+                ]
+            }
+        ]
     }
 
     try:
@@ -36,9 +44,10 @@ def generate_quiz_question(subject, syllabus, grade, difficulty):
             content = response_data['candidates'][0].get('content', {})
             question_parts = content.get('parts', [{}])
             question_text = question_parts[0].get('text', 'No question available')
+            
+            # Extract options and correct answer
             options = []
             correct_option = ''
-            # Parsing options from the response
             for part in question_parts[1:]:
                 option_text = part.get('text', '')
                 if option_text.startswith('A)'):
@@ -50,7 +59,9 @@ def generate_quiz_question(subject, syllabus, grade, difficulty):
                 elif option_text.startswith('D)'):
                     options.append(('D', option_text[2:].strip()))
                 elif 'Answer' in option_text:
-                    correct_option = re.search(r'Answer:\s*(\w)', option_text).group(1)
+                    correct_option_match = re.search(r'Answer:\s*(\w)', option_text)
+                    if correct_option_match:
+                        correct_option = correct_option_match.group(1).upper()
             
             formatted_question = format_bold(question_text)
             return formatted_question, options, correct_option
@@ -58,6 +69,7 @@ def generate_quiz_question(subject, syllabus, grade, difficulty):
     except requests.exceptions.RequestException as e:
         logger.error(f"Request failed: {e}")
         return "Error fetching question. Please try again later.", [], None
+
 
 @app.route('/')
 def home():
