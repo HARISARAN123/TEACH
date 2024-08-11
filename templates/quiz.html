@@ -23,10 +23,10 @@
             {% if question %}
                 <p>{{ question|safe }}</p>
                 <form method="POST">
-                    {% for option in options %}
+                    {% for key, value in options.items() %}
                         <div class="option">
-                            <input type="radio" id="option{{ option[0] }}" name="user_answer" value="{{ option[0] }}" required>
-                            <label for="option{{ option[0] }}">{{ option[0] }}) {{ option[1] }}</label>
+                            <input type="radio" id="option{{ key }}" name="user_answer" value="{{ key }}" required>
+                            <label for="option{{ key }}">{{ key }}) {{ value }}</label>
                         </div>
                     {% endfor %}
                     <input type="hidden" name="correct_answer" value="{{ correct_answer }}">
