@@ -24,9 +24,13 @@
                 <p>{{ question|safe }}</p>
                 <form method="POST">
                     {% for option in options %}
-                        <button type="submit" name="user_answer" value="{{ option[0] }}">{{ option[0] }}) {{ option[1] }}</button>
+                        <div class="option">
+                            <input type="radio" id="option{{ option[0] }}" name="user_answer" value="{{ option[0] }}" required>
+                            <label for="option{{ option[0] }}">{{ option[0] }}) {{ option[1] }}</label>
+                        </div>
                     {% endfor %}
                     <input type="hidden" name="correct_answer" value="{{ correct_answer }}">
+                    <button type="submit">Submit Answer</button>
                 </form>
             {% elif feedback %}
                 <p>{{ feedback }}</p>
