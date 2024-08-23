@@ -19,13 +19,13 @@
     </header>
     <main class="container">
         <div class="question-section">
-            <h2>Generate Detailed Question</h2>
+            <h2>Generate Question</h2>
             {% if questions %}
-                {% for question in questions %}
-                    <div class="question">
-                        <p>{{ question|safe }}</p>
-                    </div>
-                {% endfor %}
+                <ul>
+                    {% for question in questions %}
+                        <li>{{ question|safe }}</li>
+                    {% endfor %}
+                </ul>
             {% else %}
                 <form method="POST">
                     <label for="subject">Subject:</label>
@@ -41,7 +41,7 @@
                         <option value="hard">Hard</option>
                     </select>
                     <label for="count">Number of Questions:</label>
-                    <input type="number" id="count" name="count" value="1" min="1" required>
+                    <input type="number" id="count" name="count" min="1" value="1" required>
                     <button type="submit">Generate Questions</button>
                 </form>
             {% endif %}
