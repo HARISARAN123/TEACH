@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home - T.E.A.C.H</title>
+    <title>Doubt Solver - T.E.A.C.H</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link rel="icon" href="{{ url_for('static', filename='icon.png') }}" type="image/png">
 </head>
@@ -15,33 +15,21 @@
                 <li><a href="{{ url_for('home') }}">Home</a></li>
                 <li><a href="{{ url_for('question') }}">Question</a></li>
                 <li><a href="{{ url_for('doubt') }}">Doubt Solver</a></li>
-                <li><button id="theme-toggle">Toggle Theme</button></li>
             </ul>
         </nav>
     </header>
 
     <main class="container">
-        <section class="hero">
-            <h2>Welcome to T.E.A.C.H</h2>
-            <p>Your go-to platform for interactive quizzes and doubt-solving.</p>
-        </section>
-
-        <section class="info">
-            <h2>About T.E.A.C.H</h2>
-            <p>T.E.A.C.H is discontinuing its content generator and focusing on being a comprehensive doubt solver for students.</p>
-        </section>
-
-        <section class="team-info">
-            <h2>About Me</h2>
-            <div class="profile">
-                <img src="{{ url_for('static', filename='profile.jpg') }}" alt="Nambu HariSaran">
-                <p>Name: Nambu HariSaran</p>
-                <p>Grade: 12</p>
-                <p>Student & Developer</p>
-                <p>Skills: Python, Java, HTML, CSS</p>
-                <p>Projects: <a href="https://github.com/HARISARAN123/Leafsense" target="_blank">Leaf</a></p>
-            </div>
-        </section>
+        <h2>Doubt Solver</h2>
+        {% if answer %}
+            <p>{{ answer|safe }}</p>
+        {% else %}
+            <form method="POST">
+                <label for="doubt">Enter your doubt:</label>
+                <textarea id="doubt" name="doubt" rows="4" required></textarea>
+                <button type="submit">Submit</button>
+            </form>
+        {% endif %}
     </main>
 
     <footer>
