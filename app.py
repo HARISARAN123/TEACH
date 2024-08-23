@@ -1,5 +1,4 @@
 import logging
-import re
 import requests
 from flask import Flask, request, render_template, jsonify
 import os
@@ -13,8 +12,8 @@ logger = logging.getLogger(__name__)
 # Load API key from environment variables
 GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')
 
-def generate_quiz_question(subject, syllabus, grade, difficulty):
-    """Generate a multiple-choice question (MCQ) with options A, B, C, D."""
+def generate_question(subject, syllabus, grade, difficulty, count):
+    """Generate detailed questions."""
     url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key={GEMINI_API_KEY}"
     headers = {"Content-Type": "application/json"}
     data = {
@@ -22,7 +21,7 @@ def generate_quiz_question(subject, syllabus, grade, difficulty):
             {
                 "parts": [
                     {
-                        "text": f"Generate a multiple-choice question (MCQ) with four options (A, B, C, D) for {subject} with syllabus {syllabus}, grade {grade}, and {difficulty} difficulty."
+                        "text": f"Generate {count} detailed questions for {subject} with syllabus {syllabus}, grade {grade}, and {difficulty} difficulty."
                     }
                 ]
             }
@@ -39,26 +38,16 @@ def generate_quiz_question(subject, syllabus, grade, difficulty):
         if 'candidates' in response_data and response_data['candidates']:
             content = response_data['candidates'][0].get('content', {})
             question_parts = content.get('parts', [{}])
-            question_text = question_parts[0].get('text', 'No question available')
+            questions = []
+            for part in question_parts:
+                question_text = part.get('text', 'No question available')
+                questions.append(question_text)
 
-            # Extract options and correct answer
-            options = {}
-            correct_option = ''
-            for part in question_parts[1:]:
-                option_text = part.get('text', '')
-                match = re.match(r'^([A-D])\)\s*(.*)', option_text)
-                if match:
-                    options[match.group(1)] = match.group(2).strip()
-                elif 'Answer' in option_text:
-                    correct_option_match = re.search(r'Answer:\s*(\w)', option_text)
-                    if correct_option_match:
-                        correct_option = correct_option_match.group(1).upper()
-
-            return question_text, options, correct_option
+            return questions
 
     except requests.exceptions.RequestException as e:
         logger.error(f"Request failed: {e}")
-        return "Error fetching question. Please try again later.", {}, None
+        return ["Error fetching question. Please try again later."]
 
 @app.route('/')
 def home():
@@ -69,29 +58,20 @@ def home():
         logger.error(f"Error rendering template: {e}")
         return jsonify({'error': 'An error occurred while rendering the page.'}), 500
 
-@app.route('/quiz', methods=['GET', 'POST'])
-def quiz():
-    """Handle quiz generation and answer verification."""
+@app.route('/question', methods=['GET', 'POST'])
+def question():
+    """Handle question generation and display."""
     if request.method == 'POST':
         subject = request.form.get('subject')
         syllabus = request.form.get('syllabus')
         grade = request.form.get('grade')
         difficulty = request.form.get('difficulty')
-        user_answer = request.form.get('user_answer')
-        correct_answer = request.form.get('correct_answer')
-        question = request.form.get('question')
+        count = int(request.form.get('count', 1))  # Default to 1 if not provided
 
-        if user_answer:
-            if user_answer.strip().upper() == correct_answer.upper():
-                feedback = "Correct answer!"
-            else:
-                feedback = f"Incorrect. The correct answer was: {correct_answer}"
-            return render_template('quiz.html', feedback=feedback, question=question, options=None)
+        questions = generate_question(subject, syllabus, grade, difficulty, count)
+        return render_template('question.html', questions=questions)
 
-        question, options, correct_answer = generate_quiz_question(subject, syllabus, grade, difficulty)
-        return render_template('quiz.html', question=question, options=options, correct_answer=correct_answer)
-
-    return render_template('quiz.html')
+    return render_template('question.html')
 
 @app.route('/doubt', methods=['GET', 'POST'])
 def doubt():
@@ -101,6 +81,40 @@ def doubt():
         answer = generate_doubt_answer(doubt)
         return render_template('doubt.html', answer=answer)
     return render_template('doubt.html')
+
+def generate_doubt_answer(doubt):
+    """Generate an answer to a doubt."""
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key={GEMINI_API_KEY}"
+    headers = {"Content-Type": "application/json"}
+    data = {
+        "contents": [
+            {
+                "parts": [
+                    {
+                        "text": f"Provide an answer to the following doubt: {doubt}"
+                    }
+                ]
+            }
+        ]
+    }
+
+    try:
+        response = requests.post(url, headers=headers, json=data)
+        logger.info(f"Response status code: {response.status_code}")
+        logger.info(f"Response content: {response.text}")
+        response.raise_for_status()
+
+        response_data = response.json()
+        if 'candidates' in response_data and response_data['candidates']:
+            content = response_data['candidates'][0].get('content', {})
+            answer_parts = content.get('parts', [{}])
+            answer_text = answer_parts[0].get('text', 'No answer available')
+
+            return answer_text
+
+    except requests.exceptions.RequestException as e:
+        logger.error(f"Request failed: {e}")
+        return "Error fetching answer. Please try again later."
 
 if __name__ == '__main__':
     app.run(debug=True)
