@@ -30,9 +30,8 @@
             </div>
         {% else %}
             <p>No questions generated yet. Please submit the form to generate questions.</p>
+            <a href="{{ url_for('home') }}" class="btn">Go Back</a>
         {% endif %}
-        
-        <a href="{{ url_for('home') }}" class="btn">Go Back</a>
     </div>
 
     <footer>
