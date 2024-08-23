@@ -8,20 +8,36 @@
 </head>
 <body>
     <header>
-        <h1>Home</h1>
-        <nav>
-            <ul>
-                <li><a href="{{ url_for('home') }}">Home</a></li>
-                <li><a href="{{ url_for('question') }}">Question</a></li>
-                <li><a href="{{ url_for('doubt') }}">Doubt</a></li>
-            </ul>
-        </nav>
-        <button id="theme-toggle">Toggle Theme</button>
+        <h1>Welcome to the Teach Bot</h1>
     </header>
-    <main class="container">
-        <h2>Welcome to the Question Generator!</h2>
-        <p>Select an option from the menu to get started.</p>
-    </main>
-    <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('question') }}">Generate Questions</a></li>
+            <li><a href="{{ url_for('doubt') }}">Resolve Doubts</a></li>
+            <li><button onclick="toggleTheme()">Toggle Theme</button></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <h2>Home Page</h2>
+        <p>Use the navigation above to generate questions or resolve doubts.</p>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Your Teach Bot</p>
+    </footer>
+
+    <script>
+        // JavaScript for theme toggle
+        function toggleTheme() {
+            document.body.classList.toggle('dark-theme');
+            document.querySelector('header').classList.toggle('dark-theme');
+            document.querySelector('nav ul').classList.toggle('dark-theme');
+            document.querySelectorAll('nav ul li a').forEach(a => a.classList.toggle('dark-theme'));
+            document.querySelector('footer').classList.toggle('dark-theme');
+            document.querySelector('.container').classList.toggle('dark-theme');
+        }
+    </script>
 </body>
 </html>
