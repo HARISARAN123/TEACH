@@ -3,39 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Doubt Solver - T.E.A.C.H</title>
+    <title>Home</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <link rel="icon" href="{{ url_for('static', filename='icon.png') }}" type="image/png">
 </head>
 <body>
     <header>
-        <h1>T.E.A.C.H</h1>
+        <h1>Home</h1>
         <nav>
             <ul>
                 <li><a href="{{ url_for('home') }}">Home</a></li>
                 <li><a href="{{ url_for('question') }}">Question</a></li>
-                <li><a href="{{ url_for('doubt') }}">Doubt Solver</a></li>
+                <li><a href="{{ url_for('doubt') }}">Doubt</a></li>
             </ul>
         </nav>
     </header>
-
     <main class="container">
-        <h2>Doubt Solver</h2>
-        {% if answer %}
-            <p>{{ answer|safe }}</p>
-        {% else %}
-            <form method="POST">
-                <label for="doubt">Enter your doubt:</label>
-                <textarea id="doubt" name="doubt" rows="4" required></textarea>
-                <button type="submit">Submit</button>
-            </form>
-        {% endif %}
+        <h2>Welcome to the Question Generator!</h2>
+        <p>Select an option from the menu to get started.</p>
     </main>
-
-    <footer>
-        <p>&copy; 2024 Nambu HariSaran. All rights reserved.</p>
-    </footer>
-
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
