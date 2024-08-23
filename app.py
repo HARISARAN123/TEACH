@@ -39,18 +39,15 @@ def generate_question(subject, syllabus, grade, difficulty, count):
             content = response_data['candidates'][0].get('content', {})
             question_parts = content.get('parts', [{}])
             questions = []
-
-            # Prepare formatted HTML output for each question
-            for i, part in enumerate(question_parts, start=1):
+            for part in question_parts:
                 question_text = part.get('text', 'No question available')
-                formatted_question = f"<strong>{i}. {question_text}</strong>"
-                questions.append(formatted_question)
+                questions.append(question_text)
 
             return questions
 
     except requests.exceptions.RequestException as e:
         logger.error(f"Request failed: {e}")
-        return ["<strong>Error fetching question. Please try again later.</strong>"]
+        return ["Error fetching question. Please try again later."]
 
 @app.route('/')
 def home():
