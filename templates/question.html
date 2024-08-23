@@ -3,44 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generated Questions</title>
+    <title>Question</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     <header>
-        <h1>Generated Questions</h1>
+        <h1>Question Generator</h1>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+                <li><a href="{{ url_for('question') }}">Question</a></li>
+                <li><a href="{{ url_for('doubt') }}">Doubt</a></li>
+            </ul>
+        </nav>
+        <button id="theme-toggle">Toggle Theme</button>
     </header>
-
-    <nav>
-        <ul>
-            <li><a href="{{ url_for('home') }}">Home</a></li>
-            <li><button onclick="toggleTheme()">Toggle Theme</button></li>
-        </ul>
-    </nav>
-
-    <div class="container">
-        {% if questions %}
-            <div class="questions">
+    <main class="container">
+        <div class="question-section">
+            <h2>Generate Questions</h2>
+            {% if questions %}
                 {% for question in questions %}
                     <div class="question">
                         <p>{{ question|safe }}</p>
                     </div>
                 {% endfor %}
-            </div>
-        {% else %}
-            <div class="no-questions">
-                <p>No questions generated yet. Please submit the form to generate questions.</p>
-                <a href="{{ url_for('home') }}" class="btn">Go Back</a>
-            </div>
-        {% endif %}
-    </div>
-
-    <footer>
-        <p>&copy; 2024 Your Teach Bot</p>
-    </footer>
-
-    <script>
-        // JavaScript for theme toggle
-        function toggleTheme() {
-            document.body.classList.toggle('dark-theme');
-            document.querySelector('header').
+            {% else %}
+                <form method="POST" action="{{ url_for('question') }}">
+                    <label for="subject">Subject:</label>
+                    <input type="text" id="subject" name="subject" required>
+                    <label for="syllabus">Syllabus:</label>
+                    <input type="text" id="syllabus" name="syllabus" required>
+                    <label for="grade">Grade:</label>
+                    <input type="text" id="grade" name="grade" required>
+                    <label for="difficulty">Difficulty:</label>
+                    <select id="difficulty" name="difficulty" required>
+                        <option value="easy">Easy</option>
+                        <option value="medium">Medium</option>
+                        <option value="hard">Hard</option>
+                    </select>
+                    <label for="count">Number of Questions:</label>
+                    <input type="number" id="count" name="count" value="1" min="1" required>
+                    <button type="submit">Generate Questions</button>
+                </form>
+            {% endif %}
+        </div>
+    </main>
+    <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+</body>
+</html>
