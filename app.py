@@ -38,21 +38,17 @@ def generate_question(subject, syllabus, grade, difficulty, count):
         if 'candidates' in response_data and response_data['candidates']:
             content = response_data['candidates'][0].get('content', {})
             question_parts = content.get('parts', [{}])
-
             questions = []
+
             for i, part in enumerate(question_parts, start=1):
                 question_text = part.get('text', 'No question available')
                 questions.append(question_text)
 
-            logger.info(f"Questions generated: {questions}")
             return questions
-        else:
-            logger.warning("No candidates returned from the API.")
-            return []
 
     except requests.exceptions.RequestException as e:
         logger.error(f"Request failed: {e}")
-        return []
+        return ["Error fetching question. Please try again later."]
 
 @app.route('/')
 def home():
