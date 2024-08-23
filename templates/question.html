@@ -22,15 +22,17 @@
         <!-- Display the generated questions -->
         {% if questions %}
             <div class="questions">
-                <ul>
-                    {% for question in questions %}
-                        <li>{{ question|safe }}</li>
-                    {% endfor %}
-                </ul>
+                {% for question in questions %}
+                    <div class="question">
+                        <p>{{ loop.index }}. {{ question|safe }}</p>
+                    </div>
+                {% endfor %}
             </div>
         {% else %}
-            <p>No questions generated yet. Please submit the form to generate questions.</p>
-            <a href="{{ url_for('home') }}" class="btn">Go Back</a>
+            <div class="no-questions">
+                <p>No questions generated yet. Please submit the form to generate questions.</p>
+                <a href="{{ url_for('home') }}" class="btn">Go Back</a>
+            </div>
         {% endif %}
     </div>
 
@@ -47,7 +49,7 @@
             document.querySelectorAll('nav ul li a').forEach(a => a.classList.toggle('dark-theme'));
             document.querySelector('footer').classList.toggle('dark-theme');
             document.querySelector('.container').classList.toggle('dark-theme');
-            document.querySelectorAll('.questions').forEach(question => question.classList.toggle('dark-theme'));
+            document.querySelectorAll('.question').forEach(question => question.classList.toggle('dark-theme'));
         }
     </script>
 </body>
