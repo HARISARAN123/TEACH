@@ -3,41 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Question - T.E.A.C.H</title>
+    <title>Question</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <link rel="icon" href="{{ url_for('static', filename='icon.png') }}" type="image/png">
 </head>
 <body>
     <header>
-        <h1>T.E.A.C.H</h1>
+        <h1>Question Generator</h1>
         <nav>
             <ul>
                 <li><a href="{{ url_for('home') }}">Home</a></li>
                 <li><a href="{{ url_for('question') }}">Question</a></li>
-                <li><a href="{{ url_for('doubt') }}">Doubt Solver</a></li>
+                <li><a href="{{ url_for('doubt') }}">Doubt</a></li>
             </ul>
         </nav>
     </header>
-
     <main class="container">
-        <h2>Question - T.E.A.C.H</h2>
-        {% if question %}
-            <section class="question-section">
-                <h3>Teach Label:</h3>
-                <p>{{ question|safe }}</p>
-                <form method="POST">
-                    <input type="hidden" name="correct_answer" value="{{ correct_answer }}">
-                    <input type="hidden" name="question" value="{{ question }}">
-                    <button type="submit">Submit Answer</button>
-                </form>
-            </section>
-        {% elif feedback %}
-            <section class="feedback-section">
-                <h3>Teach Label:</h3>
-                <p>{{ feedback }}</p>
-            </section>
-        {% else %}
-            <section class="form-section">
+        <div class="question-section">
+            <h2>Generate Questions</h2>
+            {% if questions %}
+                {% for question in questions %}
+                    <div class="question">
+                        <p>{{ question|safe }}</p>
+                    </div>
+                {% endfor %}
+            {% else %}
                 <form method="POST">
                     <label for="subject">Subject:</label>
                     <input type="text" id="subject" name="subject" required>
@@ -51,16 +40,12 @@
                         <option value="medium">Medium</option>
                         <option value="hard">Hard</option>
                     </select>
-                    <button type="submit">Generate Question</button>
+                    <label for="count">Number of Questions:</label>
+                    <input type="number" id="count" name="count" value="1" min="1" required>
+                    <button type="submit">Generate Questions</button>
                 </form>
-            </section>
-        {% endif %}
+            {% endif %}
+        </div>
     </main>
-
-    <footer>
-        <p>&copy; 2024 Nambu HariSaran. All rights reserved.</p>
-    </footer>
-
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
