@@ -78,11 +78,8 @@ def doubt():
     """Handle doubt resolution."""
     if request.method == 'POST':
         doubt = request.form.get('doubt')
-        if doubt:
-            answer = generate_doubt_answer(doubt)
-            return render_template('doubt.html', answer=answer)
-        else:
-            return render_template('doubt.html', answer="No doubt provided.")
+        answer = generate_doubt_answer(doubt)
+        return render_template('doubt.html', answer=answer)
     return render_template('doubt.html')
 
 def generate_doubt_answer(doubt):
