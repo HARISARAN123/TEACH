@@ -38,10 +38,7 @@ def generate_question(subject, syllabus, grade, difficulty, count):
         if 'candidates' in response_data and response_data['candidates']:
             content = response_data['candidates'][0].get('content', {})
             question_parts = content.get('parts', [{}])
-            questions = []
-            for part in question_parts:
-                question_text = part.get('text', 'No question available')
-                questions.append(question_text)
+            questions = [part.get('text', 'No question available') for part in question_parts]
 
             return questions
 
