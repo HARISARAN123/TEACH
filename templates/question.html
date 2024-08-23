@@ -3,30 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Question</title>
+    <title>Question - T.E.A.C.H</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='icon.png') }}" type="image/png">
 </head>
 <body>
     <header>
-        <h1>Question</h1>
+        <h1>T.E.A.C.H</h1>
         <nav>
             <ul>
                 <li><a href="{{ url_for('home') }}">Home</a></li>
                 <li><a href="{{ url_for('question') }}">Question</a></li>
-                <li><a href="{{ url_for('doubt') }}">Doubt</a></li>
+                <li><a href="{{ url_for('doubt') }}">Doubt Solver</a></li>
             </ul>
         </nav>
     </header>
+
     <main class="container">
-        <div class="question-section">
-            <h2>Generate Question</h2>
-            {% if questions %}
-                <ul>
-                    {% for question in questions %}
-                        <li>{{ question|safe }}</li>
-                    {% endfor %}
-                </ul>
-            {% else %}
+        <h2>Question - T.E.A.C.H</h2>
+        {% if question %}
+            <section class="question-section">
+                <h3>Teach Label:</h3>
+                <p>{{ question|safe }}</p>
+                <form method="POST">
+                    <input type="hidden" name="correct_answer" value="{{ correct_answer }}">
+                    <input type="hidden" name="question" value="{{ question }}">
+                    <button type="submit">Submit Answer</button>
+                </form>
+            </section>
+        {% elif feedback %}
+            <section class="feedback-section">
+                <h3>Teach Label:</h3>
+                <p>{{ feedback }}</p>
+            </section>
+        {% else %}
+            <section class="form-section">
                 <form method="POST">
                     <label for="subject">Subject:</label>
                     <input type="text" id="subject" name="subject" required>
@@ -40,12 +51,16 @@
                         <option value="medium">Medium</option>
                         <option value="hard">Hard</option>
                     </select>
-                    <label for="count">Number of Questions:</label>
-                    <input type="number" id="count" name="count" min="1" value="1" required>
-                    <button type="submit">Generate Questions</button>
+                    <button type="submit">Generate Question</button>
                 </form>
-            {% endif %}
-        </div>
+            </section>
+        {% endif %}
     </main>
+
+    <footer>
+        <p>&copy; 2024 Nambu HariSaran. All rights reserved.</p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
