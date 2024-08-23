@@ -16,6 +16,7 @@
                 <li><a href="{{ url_for('doubt') }}">Doubt</a></li>
             </ul>
         </nav>
+        <button id="theme-toggle">Toggle Theme</button>
     </header>
     <main class="container">
         <div class="question-section">
@@ -27,7 +28,7 @@
                     </div>
                 {% endfor %}
             {% else %}
-                <form method="POST">
+                <form method="POST" action="{{ url_for('question') }}">
                     <label for="subject">Subject:</label>
                     <input type="text" id="subject" name="subject" required>
                     <label for="syllabus">Syllabus:</label>
@@ -47,5 +48,6 @@
             {% endif %}
         </div>
     </main>
+    <script src="{{ url_for('static', filename='scripts.js') }}"></script>
 </body>
 </html>
